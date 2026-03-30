@@ -2,16 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import Skills from '../components/Skills.astro';
 ---
-<Layout title="Hasrat | Security Researcher">
-	<div class="space-y-6">
-		<h1 class="text-3xl font-bold">System Initialization... <span class="text-white">DONE</span></h1>
-		<p class="text-lg opacity-80">
-			Welcome. I am a BSSE student and MERN developer focusing on Offensive Security.
-			Currently auditing systems at LA Consultancy.
-		</p>
+<Layout title="Hasrat | Hacker Portfolio">
+	<div class="py-10">
+		<h1 class="text-4xl font-bold mb-4 text-[#00ff00]">HASRAT_@_SYSTEM:~$ <span class="animate-pulse">_</span></h1>
+		<p class="text-xl opacity-80 mb-8">BSSE Student & Security Researcher. Currently interning at LA Consultancy.</p>
+		
 		<Skills />
-		<div class="mt-10 p-4 border border-[#00ff00]/30 bg-[#00ff00]/5">
-			<p class="text-sm">Ready to deploy? Check my <a href="/writeups" class="underline font-bold">Writeups</a>.</p>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+			<a href="/writeups" class="p-4 border border-[#00ff00]/30 hover:bg-[#00ff00]/10 block">
+				<h3 class="font-bold text-[#00ff00]">./view_writeups</h3>
+				<p class="text-xs opacity-60">Technical logs and vulnerability reports.</p>
+			</a>
+			<a href="/machines" class="p-4 border border-[#00ff00]/30 hover:bg-[#00ff00]/10 block">
+				<h3 class="font-bold text-[#00ff00]">./pwned_machines</h3>
+				<p class="text-xs opacity-60">List of retired boxes from HTB/TryHackMe.</p>
+			</a>
 		</div>
 	</div>
 </Layout>
