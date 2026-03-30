@@ -7,6 +7,11 @@ const posts = Object.entries(writeups).map(([path, module]) => {
   const slug = path.split('/').pop().replace('.md', '');
   return { slug, module };
 });
+
+export function getStaticPaths() {
+  return posts.map((item) => ({ params: { slug: item.slug } }));
+}
+
 const current = posts.find((item) => item.slug === Astro.params.slug);
 
 if (!current) {
