@@ -1,0 +1,12 @@
+---
+const { skill, percentage } = Astro.props;
+---
+<div class="skill-bar">
+  <div class="skill-row">
+    <span>{skill}</span>
+    <span>{percentage}%</span>
+  </div>
+  <div class="skill-track">
+    <div class="skill-fill" style={`width:${percentage}%`} />
+  </div>
+</div>

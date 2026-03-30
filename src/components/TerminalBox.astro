@@ -1,0 +1,18 @@
+---
+const title = Astro.props.title ?? 'terminal';
+---
+<div class="terminal-box">
+  <div class="terminal-header">
+    <span class="terminal-dot red"></span>
+    <span class="terminal-dot orange"></span>
+    <span class="terminal-dot green"></span>
+    <div class="terminal-title">{title}</div>
+  </div>
+  <div class="terminal-body">
+    <div class="scanline-layer"></div>
+    <div class="terminal-copy">
+      <slot />
+      <span class="terminal-cursor">_</span>
+    </div>
+  </div>
+</div>

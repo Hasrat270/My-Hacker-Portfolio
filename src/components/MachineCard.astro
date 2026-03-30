@@ -1,0 +1,18 @@
+---
+const machine = Astro.props.machine;
+const difficulty = machine.difficulty.toLowerCase();
+---
+<article class="machine-card">
+  <div class="machine-card-top">
+    <div>
+      <span class="machine-name">{machine.name}</span>
+      <span class="machine-os">{machine.os}</span>
+    </div>
+    <span class={`badge badge-${difficulty}`}>{machine.difficulty}</span>
+  </div>
+  <p class="machine-tags">{machine.tags.join(' · ')}</p>
+  <div class="machine-meta">
+    <span>{machine.date}</span>
+    <a class="machine-link" href={`/writeups/${machine.slug}`}>view writeup</a>
+  </div>
+</article>

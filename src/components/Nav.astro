@@ -1,0 +1,15 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Machines', href: '/machines' },
+  { label: 'Writeups', href: '/writeups/ghost-node' }
+];
+---
+<nav class="nav-shell">
+  <div class="nav-brand">[root@portfolio ~]#</div>
+  <ul class="nav-links">
+    {navItems.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+</nav>

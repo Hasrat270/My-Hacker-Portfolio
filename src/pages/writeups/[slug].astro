@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+
+const writeups = import.meta.glob('../../content/writeups/*.md', { eager: true });
+const posts = Object.entries(writeups).map(([path, module]) => {
+  const slug = path.split('/').pop().replace('.md', '');
+  return { slug, module };
+});
+const current = posts.find((item) => item.slug === Astro.params.slug);
+
+if (!current) {
+  throw new Error(`Writeup not found: ${Astro.params.slug}`);
+}
+
+const { frontmatter } = current.module;
+---
+<BaseLayout title={`${frontmatter.title} | Root Access`} description={frontmatter.excerpt ?? 'Writeup article.'}>
+  <Nav slot="nav" />
+  <section class="section writeup-page">
+    <div class="section-heading">
+      <span class="eyebrow">writeup log</span>
+      <h2>{frontmatter.title}</h2>
+      <div class="writeup-meta">
+        <span>{frontmatter.date}</span>
+        <span>{frontmatter.tags.join(' · ')}</span>
+      </div>
+    </div>
+    <article class="page-panel writeup-body">
+      <current.module.default />
+    </article>
+  </section>
+</BaseLayout>

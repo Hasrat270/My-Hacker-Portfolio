@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "ghost-node",
+    "name": "Ghost Node",
+    "os": "Linux",
+    "difficulty": "Hard",
+    "tags": ["Pwn", "Privilege Escalation", "Kernel"],
+    "date": "2026-03-22"
+  },
+  {
+    "slug": "cobalt-mirage",
+    "name": "Cobalt Mirage",
+    "os": "Linux",
+    "difficulty": "Medium",
+    "tags": ["Web", "Auth Bypass", "SQLi"],
+    "date": "2026-03-18"
+  },
+  {
+    "slug": "zephyr",
+    "name": "Zephyr",
+    "os": "Windows",
+    "difficulty": "Easy",
+    "tags": ["AD", "RCE", "Kerberoast"],
+    "date": "2026-03-12"
+  },
+  {
+    "slug": "spectre",
+    "name": "Spectre",
+    "os": "Linux",
+    "difficulty": "Medium",
+    "tags": ["Reverse", "ROP", "SUID"],
+    "date": "2026-03-06"
+  },
+  {
+    "slug": "aurora",
+    "name": "Aurora",
+    "os": "Linux",
+    "difficulty": "Hard",
+    "tags": ["Cloud", "Docker", "Misconfig"],
+    "date": "2026-02-28"
+  },
+  {
+    "slug": "neon-edge",
+    "name": "Neon Edge",
+    "os": "Windows",
+    "difficulty": "Easy",
+    "tags": ["Phishing", "Endpoint", "Payload"],
+    "date": "2026-02-20"
+  }
+]

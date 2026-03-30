@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import MachineCard from '../components/MachineCard.astro';
+import machines from '../data/machines.json';
+
+const filters = ['All', 'Easy', 'Medium', 'Hard'];
+const selected = Astro.url.searchParams.get('difficulty') || 'All';
+const activeFilter = filters.includes(selected) ? selected : 'All';
+const visibleMachines =
+  activeFilter === 'All'
+    ? machines
+    : machines.filter((machine) => machine.difficulty === activeFilter);
+---
+<BaseLayout title="Machines | Root Access" description="All pwned machines list.">
+  <Nav slot="nav" />
+  <section class="section machines-index">
+    <div class="section-heading">
+      <span class="eyebrow">target archive</span>
+      <h2>All machines</h2>
+    </div>
+    <div class="filter-row">
+      {filters.map((level) => (
+        <a class={`filter-pill ${activeFilter === level ? 'active' : ''}`} href={level === 'All' ? '/machines' : `/machines?difficulty=${level}`}>
+          {level}
+        </a>
+      ))}
+    </div>
+    <div class="grid machines-grid">
+      {visibleMachines.map((machine) => (
+        <MachineCard machine={machine} />
+      ))}
+    </div>
+    {visibleMachines.length === 0 ? <p class="empty-state">No machines found for {activeFilter} difficulty.</p> : null}
+  </section>
+</BaseLayout>

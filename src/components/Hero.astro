@@ -1,0 +1,19 @@
+---
+import TerminalBox from './TerminalBox.astro';
+---
+<section class="hero-panel">
+  <div class="hero-copy">
+    <span class="eyebrow">active session / root</span>
+    <h1>Offensive security, red team tooling, and machine writeups.</h1>
+    <p>Static hacker portfolio with a terminal-first dark UI, built in Astro with zero client-side JavaScript.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/machines">View machines</a>
+      <a class="button button-secondary" href="/writeups/ghost-node">Read a writeup</a>
+    </div>
+  </div>
+  <TerminalBox title="attack-shell">
+    <div class="terminal-line"><strong>></strong> scanning local network...</div>
+    <div class="terminal-line"><strong>></strong> pwned: <span class="terminal-highlight">6 targets</span></div>
+    <div class="terminal-line"><strong>></strong> writeups available: <span class="terminal-highlight">3</span></div>
+  </TerminalBox>
+</section>
