@@ -16,7 +16,17 @@ const { Content } = await post.render();
 
 <Layout title={post.data.title}>
 	<article class="prose prose-invert prose-green max-w-none">
-		<h1 class="text-3xl border-b border-[#00ff00] pb-4 mb-8">{post.data.title}</h1>
-		<Content />
+		<a href="/writeups" class="text-sm hover:underline mb-8 inline-block opacity-50"><- Back to logs</a>
+		<h1 class="text-3xl border-b border-[#00ff00]/30 pb-4 mb-8 text-[#00ff00]">{post.data.title}</h1>
+		<div class="content-style">
+			<Content />
+		</div>
 	</article>
 </Layout>
+
+<style is:global>
+	/* Ensures markdown content stays green and hacker-themed */
+	.content-style p { margin-bottom: 1rem; opacity: 0.9; }
+	.content-style h2 { color: #00ff00; margin-top: 2rem; font-size: 1.5rem; }
+	.content-style pre { border: 1px solid #00ff0033; padding: 1rem; background: #111 !important; }
+</style>
