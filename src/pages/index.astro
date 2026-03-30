@@ -2,30 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import Skills from '../components/Skills.astro';
 ---
-
-<Layout title="Hasrat | Software Engineer & Hacker">
-	<div class="space-y-8">
-		<header>
-			<h1 class="text-4xl font-bold mb-2">Hasrat@Portfolio:~$ <span class="animate-pulse">_</span></h1>
-			<p class="text-xl text-[#00ff00]/70">BSSE Student | MERN Developer | Cyber Researcher</p>
-		</header>
-
-		<section class="opacity-90 leading-relaxed max-w-2xl">
-			<p>
-				Working at **LA Consultancy** by day, cracking machines by night. 
-				I build full-stack apps with **React/Next.js** and secure them using **Kali Linux** insights.
-			</p>
-		</section>
-
+<Layout title="Hasrat | Security Researcher">
+	<div class="space-y-6">
+		<h1 class="text-3xl font-bold">System Initialization... <span class="text-white">DONE</span></h1>
+		<p class="text-lg opacity-80">
+			Welcome. I am a BSSE student and MERN developer focusing on Offensive Security.
+			Currently auditing systems at LA Consultancy.
+		</p>
 		<Skills />
-
-		<div class="pt-8 flex gap-4">
-			<a href="/writeups" class="border border-[#00ff00] px-4 py-2 hover:bg-[#00ff00] hover:text-black transition-all">
-				./view_writeups.sh
-			</a>
-			<a href="/machines" class="border border-[#00ff00] px-4 py-2 hover:bg-[#00ff00] hover:text-black transition-all">
-				./pwned_boxes.sh
-			</a>
+		<div class="mt-10 p-4 border border-[#00ff00]/30 bg-[#00ff00]/5">
+			<p class="text-sm">Ready to deploy? Check my <a href="/writeups" class="underline font-bold">Writeups</a>.</p>
 		</div>
 	</div>
 </Layout>
