@@ -1,8 +1,0 @@
-[
-  { "skill": "Recon & OSINT", "percentage": 92 },
-  { "skill": "Binary Exploitation", "percentage": 86 },
-  { "skill": "Web App Hacking", "percentage": 80 },
-  { "skill": "Reverse Engineering", "percentage": 74 },
-  { "skill": "Privilege Escalation", "percentage": 88 },
-  { "skill": "Cloud / Container", "percentage": 66 }
-]
