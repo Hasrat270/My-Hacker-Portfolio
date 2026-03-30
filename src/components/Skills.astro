@@ -1,0 +1,23 @@
+---
+const skills = [
+	{ name: 'MongoDB', icon: 'devicon-mongodb-plain' },
+	{ name: 'Express', icon: 'devicon-express-original' },
+	{ name: 'React', icon: 'devicon-react-original' },
+	{ name: 'Node.js', icon: 'devicon-nodejs-plain' },
+	{ name: 'Docker', icon: 'devicon-docker-plain' },
+	{ name: 'Kali Linux', icon: 'devicon-linux-plain' },
+    { name: 'Python', icon: 'devicon-python-plain' }
+];
+---
+
+<section class="mt-12">
+	<h2 class="text-2xl mb-6 border-l-4 border-[#00ff00] pl-4">TECHNICAL_STACK</h2>
+	<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+		{skills.map(skill => (
+			<div class="flex flex-col items-center p-4 border border-[#00ff00]/20 hover:border-[#00ff00] transition-all group">
+				<i class={`${skill.icon} text-4xl mb-2 group-hover:scale-110 transition-transform`}></i>
+				<span class="text-xs">{skill.name}</span>
+			</div>
+		))}
+	</div>
+</section>

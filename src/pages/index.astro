@@ -1,74 +1,25 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import StatCard from '../components/StatCard.astro';
-import MachineCard from '../components/MachineCard.astro';
-import SkillBar from '../components/SkillBar.astro';
-import ContactRow from '../components/ContactRow.astro';
-import machines from '../data/machines.json';
-import skills from '../data/skills.json';
-import config from '../data/config.json';
-
-const totalMachines = machines.length;
-const hardMachines = machines.filter((machine) => machine.difficulty === 'Hard').length;
-const mediumMachines = machines.filter((machine) => machine.difficulty === 'Medium').length;
-const easyMachines = machines.filter((machine) => machine.difficulty === 'Easy').length;
-const recentMachines = machines.slice(0, 4);
-const stats = [
-  { label: 'Machines pwned', value: totalMachines, detail: 'Current active targets' },
-  { label: 'Hard breaches', value: hardMachines, detail: 'Kernel & root exploits' },
-  { label: 'Medium breaches', value: mediumMachines, detail: 'Web & service chains' },
-  { label: 'Easy breaches', value: easyMachines, detail: 'Entry-level footholds' }
-];
+import Layout from '../layouts/Layout.astro';
+import Skills from '../components/Skills.astro';
 ---
-<BaseLayout title="Root Access | Hacker Portfolio" description={config.description}>
-  <Nav slot="nav" />
-  <section class="section hero-section">
-    <Hero />
-  </section>
 
-  <section class="section stats-section">
-    <div class="section-heading">
-      <span class="eyebrow">system summary</span>
-      <h2>Live breach metrics</h2>
-    </div>
-    <div class="grid cards-grid">
-      {stats.map((stat) => (
-        <StatCard label={stat.label} value={stat.value} detail={stat.detail} />
-      ))}
-    </div>
-  </section>
+<Layout title="Hasrat | Software Engineer & Security">
+	<header class="mb-12">
+		<h1 class="text-4xl font-bold mb-2">Hello, I'm Hasrat</h1>
+		<p class="text-xl text-[#00ff00]/70">BSSE Student @ 6th Semester | Software Engineer Intern</p>
+	</header>
 
-  <section class="section machines-section">
-    <div class="section-heading">
-      <span class="eyebrow">recent target list</span>
-      <h2>Latest pwned machines</h2>
-    </div>
-    <div class="grid machines-grid">
-      {recentMachines.map((machine) => (
-        <MachineCard machine={machine} />
-      ))}
-    </div>
-  </section>
+	<p class="leading-relaxed opacity-90">
+		I specialize in building secure, scalable applications with the **MERN Stack** and exploring 
+		**Ethical Hacking**. Currently interning at LA Consultancy and documenting my journey 
+		cracking machines on Hack The Box.
+	</p>
 
-  <section class="section skills-section">
-    <div class="section-heading">
-      <span class="eyebrow">toolkit status</span>
-      <h2>Skill readiness</h2>
-    </div>
-    <div class="skill-stack">
-      {skills.map((item) => (
-        <SkillBar skill={item.skill} percentage={item.percentage} />
-      ))}
-    </div>
-  </section>
+	<Skills />
 
-  <section class="section contact-section">
-    <div class="section-heading">
-      <span class="eyebrow">comms</span>
-      <h2>Reach out on the grid</h2>
-    </div>
-    <ContactRow links={config.social} />
-  </section>
-</BaseLayout>
+	<div class="mt-12">
+		<a href="/writeups" class="inline-block bg-[#00ff00] text-black px-6 py-2 font-bold hover:invert">
+			VIEW_LATEST_WRITEUPS
+		</a>
+	</div>
+</Layout>

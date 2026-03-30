@@ -1,10 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  // This fetches your markdown files from src/content/writeups
   const posts = await getCollection('writeups'); 
-  
   return posts.map(post => ({
     params: { slug: post.slug },
     props: { post },
@@ -15,4 +14,9 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Content />
+<Layout title={post.data.title}>
+	<article class="prose prose-invert prose-green max-w-none">
+		<h1 class="text-3xl border-b border-[#00ff00] pb-4 mb-8">{post.data.title}</h1>
+		<Content />
+	</article>
+</Layout>
