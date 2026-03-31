@@ -36,5 +36,26 @@ export default function profileController() {
     res.json({ profilePic: profile.profilePic });
   });
 
-  return { getProfile, upsertProfile, uploadPic };
+  // Resume update karne ka logic
+  const updateResume = asyncHandler(async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ message: "Please upload a PDF file" });
+    }
+
+    const profile = await Profile.findOne(); // Portfolio ka aik hi profile hota hai
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    // Cloudinary ka URL profile model ke resume field mein save karein
+    profile.resume = req.file.path;
+    await profile.save();
+
+    res.status(200).json({
+      message: "Resume uploaded successfully",
+      resumeUrl: profile.resume,
+    });
+  });
+
+  return { getProfile, upsertProfile, uploadPic, updateResume};
 }

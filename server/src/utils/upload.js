@@ -6,7 +6,8 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "hacker-portfolio",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    // Yahan 'pdf' add kiya hai taaki resume upload ho sakay
+    allowed_formats: ["jpg", "jpeg", "png", "webp", "pdf"], 
   },
 });
 
