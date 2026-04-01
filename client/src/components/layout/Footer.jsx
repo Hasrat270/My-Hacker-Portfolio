@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-[#00ff41]/10 bg-[#0a0a0a] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.02)_1px,transparent_1px)] [background-size:50px_50px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.02)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 

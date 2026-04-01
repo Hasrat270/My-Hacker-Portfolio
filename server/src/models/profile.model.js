@@ -6,10 +6,16 @@ const profileSchema = new mongoose.Schema(
     designation: String,
     bio: String,
     profilePic: String, // Cloudinary URL
-    resume: String,     // Cloudinary PDF URL
+    resume: String, // Cloudinary PDF URL
     email: String,
     phone: String,
     whatsapp: String,
+    htbMachines: String, // ← add
+    cves: String, // ← add
+    ctfWins: String, // ← add
+    bugBounties: String, // ← add
+    labsSolved: String, // ← add
+    rank: String, // ← add
   },
   { timestamps: true },
 );

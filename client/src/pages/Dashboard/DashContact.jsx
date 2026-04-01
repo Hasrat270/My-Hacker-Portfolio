@@ -42,7 +42,7 @@ export default function DashContact() {
   return (
     <div className="flex flex-col gap-8 max-w-2xl">
 
-      <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/[0.02] flex flex-col gap-3">
+      <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/2 flex flex-col gap-3">
         <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest">
           contact info
         </p>

@@ -27,7 +27,7 @@ export default function Writeups() {
 
   return (
     <section id="writeups" className="relative overflow-hidden bg-[#0a0a0a]">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
@@ -65,7 +65,7 @@ export default function Writeups() {
             <div
               key={w._id}
               onClick={() => navigate(`/writeups/${w._id}`)}
-              className="group border border-[#00ff41]/20 rounded bg-[#00ff41]/[0.02] hover:bg-[#00ff41]/5 hover:border-[#00ff41]/40 transition-all duration-200 overflow-hidden flex flex-col cursor-pointer"
+              className="group border border-[#00ff41]/20 rounded bg-[#00ff41]/2 hover:bg-[#00ff41]/5 hover:border-[#00ff41]/40 transition-all duration-200 overflow-hidden flex flex-col cursor-pointer"
             >
               {w.coverImage ? (
                 <img

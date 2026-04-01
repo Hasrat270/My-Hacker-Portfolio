@@ -6,4 +6,5 @@ export const NAV_LINKS = [
   { label: "Writeups", path: "/writeups" },
   { label: "Certifications", path: "/certifications" },
   { label: "Contact", path: "/contact" },
+  { label: "Labs", path: "/labs" }, // ← sahi
 ];

@@ -9,6 +9,7 @@ import Social from "../models/social.model.js";
 import Contact from "../models/contact.model.js";
 import Writeup from "../models/writeup.model.js";
 
+
 const router = Router();
 
 router.use("/skills", crudRoutes(crudController(Skill)));
@@ -18,5 +19,6 @@ router.use("/certifications", crudRoutes(crudController(Certification)));
 router.use("/socials", crudRoutes(crudController(Social)));
 router.use("/contact", crudRoutes(crudController(Contact)));
 router.use("/writeups", crudRoutes(crudController(Writeup)));
+
 
 export default router;

@@ -18,7 +18,7 @@ function MachineCard({ machine }) {
   return (
     <div
       onClick={() => navigate(`/machines/${machine._id}`)}
-      className="border border-[#00ff41]/20 rounded bg-[#00ff41]/[0.02] hover:bg-[#00ff41]/5 hover:border-[#00ff41]/40 transition-all duration-200 p-5 flex flex-col gap-4 group cursor-pointer"
+      className="border border-[#00ff41]/20 rounded bg-[#00ff41]/2 hover:bg-[#00ff41]/5 hover:border-[#00ff41]/40 transition-all duration-200 p-5 flex flex-col gap-4 group cursor-pointer"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export default function Machines() {
 
   return (
     <section id="machines" className="min-h-screen py-20 relative overflow-hidden bg-[#0a0a0a]">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">

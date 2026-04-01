@@ -55,7 +55,7 @@ export default function DashSkills() {
     <div className="flex flex-col gap-8 max-w-2xl">
 
       {/* Form */}
-      <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/[0.02] flex flex-col gap-3">
+      <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/2 flex flex-col gap-3">
         <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest">
           {editId ? 'edit skill' : 'add skill'}
         </p>
@@ -98,7 +98,7 @@ export default function DashSkills() {
         {skills.map(skill => (
           <div
             key={skill._id}
-            className="flex items-center justify-between border border-[#00ff41]/20 rounded px-4 py-3 bg-[#00ff41]/[0.02] hover:border-[#00ff41]/40 transition-all duration-200"
+            className="flex items-center justify-between border border-[#00ff41]/20 rounded px-4 py-3 bg-[#00ff41]/2 hover:border-[#00ff41]/40 transition-all duration-200"
           >
             <div className="flex items-center gap-4">
               <span className="font-mono text-sm text-[#00ff41]">{skill.name}</span>

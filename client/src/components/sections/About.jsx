@@ -69,12 +69,12 @@ export default function About() {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
-                { label: "HTB Machines", value: "50+" },
-                { label: "CVEs Found", value: "3" },
-                { label: "CTF Wins", value: "12" },
-                { label: "Bug Bounties", value: "8" },
-                { label: "Labs Solved", value: "100+" },
-                { label: "Rank", value: "Pro Hacker" },
+                { label: "HTB Machines", value: profile?.htbMachines ?? "—" },
+                { label: "CVEs Found", value: profile?.cves ?? "—" },
+                { label: "CTF Wins", value: profile?.ctfWins ?? "—" },
+                { label: "Bug Bounties", value: profile?.bugBounties ?? "—" },
+                { label: "Labs Solved", value: profile?.labsSolved ?? "—" },
+                { label: "Rank", value: profile?.rank ?? "—" },
               ].map((stat) => (
                 <div
                   key={stat.label}

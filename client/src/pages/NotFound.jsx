@@ -5,7 +5,7 @@ export default function NotFound({ code = '404', message = 'Page not found' }) {
 
   return (
     <section className="min-h-screen bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 text-center px-4">
         <p className="font-mono text-[#00ff41]/30 text-xs tracking-widest mb-4">

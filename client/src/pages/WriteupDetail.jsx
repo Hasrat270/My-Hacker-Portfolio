@@ -33,7 +33,7 @@ export default function WriteupDetail() {
 
   return (
     <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
@@ -110,7 +110,7 @@ export default function WriteupDetail() {
 
         {/* Markdown Content */}
         {writeup.content && (
-          <div className="border border-[#00ff41]/20 rounded bg-[#00ff41]/[0.02] p-6">
+          <div className="border border-[#00ff41]/20 rounded bg-[#00ff41]/2 p-6">
             <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest mb-6">
               cat writeup.md
             </p>

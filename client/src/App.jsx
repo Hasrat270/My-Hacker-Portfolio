@@ -16,8 +16,11 @@ import MachineDetails from "./pages/MachineDetail.jsx";
 import WriteupDetail from "./pages/WriteupDetail.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Footer from "./components/layout/Footer.jsx";
+import Labs from "./components/sections/Labs.jsx";
+
 
 export default function App() {
+  const location = useLocation();
   const hideNavbar =
     ["/login", "/dashboard"].includes(location.pathname) ||
     location.pathname.startsWith("/reset-password");
@@ -40,6 +43,7 @@ export default function App() {
               <Machines />
               <Certifications />
               <Writeups />
+              <Labs/>
               <Contact />
             </>
           }
@@ -48,6 +52,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/skills" element={<Skills />} />
         <Route path="/machines" element={<Machines />} />
+          <Route path="/labs" element={<Labs />} />
         <Route path="/certifications" element={<Certifications />} />
         <Route path="/writeups" element={<Writeups />} />
         <Route path="/contact" element={<Contact />} />
