@@ -11,16 +11,16 @@ import errorHandler from "./middleware/error.js";
 import profileRoutes from "./routes/profile.routes.js";
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 100,
-  message: { message: "Too many requests, try again later" },
-});
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // dev mein 1000
+  message: { message: 'Too many requests, try again later' }
+})
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10, // login/register pe sirf 10 attempts
-  message: { message: "Too many attempts, try again later" },
-});
+  max: process.env.NODE_ENV === 'production' ? 10 : 100, // dev mein 100
+  message: { message: 'Too many attempts, try again later' }
+})
 
 const app = express();
 

@@ -1,14 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
+import api from "../../services/axios.js";
+
 export default function About() {
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const res = await api.get("/profile");
+      return res.data;
+    },
+  });
+
   return (
     <section
       id="about"
-      className="min-h-screen bg-[#0a0a0a] flex items-center relative overflow-hidden"
+      className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        {/* Section header */}
         <div className="mb-12">
           <p className="font-mono text-[#00ff41]/40 text-xs tracking-widest mb-2">
             ~/about
@@ -20,32 +29,24 @@ export default function About() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Profile pic */}
           <div className="flex justify-center lg:justify-start">
             <div className="relative">
-              {/* Glow behind pic */}
               <div className="absolute inset-0 bg-[#00ff41]/10 rounded blur-2xl scale-110" />
-
-              {/* Picture frame */}
               <div className="relative w-56 h-56 sm:w-72 sm:h-72 rounded border border-[#00ff41]/30 overflow-hidden">
-                <img
-                  src="/profile.jpg"
-                  alt="Hasrat Khan"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "flex";
-                  }}
-                />
-                {/* Fallback if no image */}
-                <div className="hidden w-full h-full bg-[#00ff41]/5 items-center justify-center">
-                  <span className="font-mono text-4xl text-[#00ff41]/40">
-                    H
-                  </span>
-                </div>
+                {profile?.profilePic ? (
+                  <img
+                    src={profile.profilePic}
+                    alt="Hasrat Khan"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#00ff41]/5 flex items-center justify-center">
+                    <span className="font-mono text-4xl text-[#00ff41]/40">
+                      H
+                    </span>
+                  </div>
+                )}
               </div>
-
-              {/* Status badge */}
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#0a0a0a] border border-[#00ff41]/30 px-3 py-1 rounded font-mono text-[10px] text-[#00ff41]/70 whitespace-nowrap">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#00ff41] mr-1.5 animate-pulse" />
                 available for work
@@ -53,9 +54,7 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right — Bio */}
           <div className="flex flex-col gap-6">
-            {/* Terminal bio */}
             <div className="border border-[#00ff41]/20 rounded bg-[#00ff41]/2 p-5">
               <p className="font-mono text-[10px] text-[#00ff41]/30 mb-3 tracking-widest">
                 cat about.txt
@@ -68,7 +67,6 @@ export default function About() {
               </p>
             </div>
 
-            {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
                 { label: "HTB Machines", value: "50+" },
@@ -92,13 +90,15 @@ export default function About() {
               ))}
             </div>
 
-            {/* Social links */}
             <div className="flex flex-wrap gap-2">
               {[
                 { label: "GitHub", href: "https://github.com/Hasrat270" },
                 { label: "HTB", href: "https://app.hackthebox.com" },
                 { label: "HackerOne", href: "https://hackerone.com" },
-                { label: "LinkedIn", href: "#" },
+                {
+                  label: "LinkedIn",
+                  href: "https://linkedin.com/in/hasrat3701",
+                },
               ].map((link) => (
                 <a
                   key={link.label}

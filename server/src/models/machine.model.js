@@ -8,6 +8,8 @@ const machineSchema = new mongoose.Schema(
     points: Number,
     solvedAt: Date,
     writeupUrl: String,
+    tags: [String],
+    details: String, // machine ka description / approach
   },
   { timestamps: true },
 );

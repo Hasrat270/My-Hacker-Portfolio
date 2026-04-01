@@ -1,6 +1,7 @@
 import { Router } from "express";
 import crudController from "../utils/crudController.js";
 import crudRoutes from "../utils/crudRoutes.js";
+import Skill from "../models/skill.model.js";
 import Machine from "../models/machine.model.js";
 import Lab from "../models/lab.model.js";
 import Certification from "../models/certification.model.js";
@@ -10,6 +11,7 @@ import Writeup from "../models/writeup.model.js";
 
 const router = Router();
 
+router.use("/skills", crudRoutes(crudController(Skill)));
 router.use("/machines", crudRoutes(crudController(Machine)));
 router.use("/labs", crudRoutes(crudController(Lab)));
 router.use("/certifications", crudRoutes(crudController(Certification)));

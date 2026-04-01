@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function NavActions() {
-  const { isAuthenticated } = useSelector((s) => s.auth);
+  const { isAuthenticated } = useSelector(s => s.auth)
 
   return (
     <div className="hidden lg:flex items-center gap-3">
@@ -14,14 +14,12 @@ export default function NavActions() {
           dashboard
         </NavLink>
       )}
-      <a
-        href="/resume.pdf"
-        target="_blank"
-        rel="noreferrer"
+      <NavLink
+        to="/resume"
         className="font-mono text-xs text-[#00ff41] border border-[#00ff41]/40 px-3 py-1.5 rounded hover:bg-[#00ff41]/10 hover:border-[#00ff41] transition-all duration-200"
       >
         $ ./resume.sh
-      </a>
+      </NavLink>
     </div>
-  );
+  )
 }
