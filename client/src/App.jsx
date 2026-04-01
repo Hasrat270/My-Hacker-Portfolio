@@ -14,17 +14,19 @@ import Contact from "./components/sections/Contact.jsx";
 
 import Resume from "./pages/Resume.jsx";
 import Login from "./pages/Login.jsx";
+import Register from './pages/Register.jsx'
 import Dashboard from "./pages/Dashboard/index.jsx";
 import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import MachineDetails from "./pages/MachineDetail.jsx";
 import WriteupDetail from "./pages/WriteupDetail.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import ForgotPassword from './pages/ForgotPassword.jsx'
 
 export default function App() {
   const location = useLocation();
 
-  const isAuthOrDash = ["/login", "/dashboard"].includes(location.pathname) || 
+  const isAuthOrDash = ["/login", "/dashboard", "/forgot-password", "/register"].includes(location.pathname) || 
                        location.pathname.startsWith("/reset-password");
 
   return (
@@ -45,6 +47,8 @@ export default function App() {
 
         <Route path="/resume" element={<Resume />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/machines/:id" element={<MachineDetails />} />
         <Route path="/writeups/:id" element={<WriteupDetail />} />

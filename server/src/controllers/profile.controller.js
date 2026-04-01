@@ -37,7 +37,7 @@ export default function profileController() {
   });
 
   // Resume update karne ka logic
-  const updateResume = asyncHandler(async (req, res) => {
+  const uploadResume = asyncHandler(async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "Please upload a PDF file" });
     }
@@ -57,5 +57,5 @@ export default function profileController() {
     });
   });
 
-  return { getProfile, upsertProfile, uploadPic, updateResume};
+  return { getProfile, upsertProfile, uploadPic, uploadResume };
 }

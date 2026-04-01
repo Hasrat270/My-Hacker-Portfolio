@@ -5,11 +5,8 @@ import api from '../services/axios.js'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString()
-
+pdfjs.GlobalWorkerOptions.workerSrc =
+  `https://unpkg.com/pdfjs-dist@5.4.296/build/pdf.worker.min.mjs`;
 export default function Resume() {
   const [pages, setPages]     = useState(null)
   const [current, setCurrent] = useState(1)
@@ -23,6 +20,27 @@ export default function Resume() {
   })
 
   const resumeUrl = profile?.resume
+
+  const handleDownload = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch(resumeUrl);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Yahan aap apna desired filename set kar sakte hain
+    link.setAttribute('download', 'resume.pdf'); 
+    
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Download failed:", error);
+  }
+};
 
   return (
     <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
@@ -61,8 +79,8 @@ export default function Resume() {
               </div>
               <a
                 href={resumeUrl}
-                download
                 className="font-mono text-xs text-[#0a0a0a] bg-[#00ff41] px-4 py-1.5 rounded hover:bg-[#00ff41]/80 transition-colors duration-200"
+                onClick={handleDownload}
               >
                 $ ./download.sh
               </a>
