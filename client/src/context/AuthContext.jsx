@@ -1,18 +1,25 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { createContext, useState, useCallback, useContext, useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/apiClient.js'
-import { setUser, clearUser } from '../store/authSlice.js'
 
 export const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { user, isAuthenticated } = useSelector(s => s.auth)
+  const [user, setUserState] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const setUser = useCallback((data) => {
+    setUserState(data)
+    setIsAuthenticated(!!data)
+  }, [])
+
+  const clearUser = useCallback(() => {
+    setUserState(null)
+    setIsAuthenticated(false)
+  }, [])
 
   // 1. Session Hydration: Refresh hone par user fetch karega
   const { isLoading: isCheckingAuth } = useQuery({
@@ -20,32 +27,30 @@ export function AuthProvider({ children }) {
     queryFn: async () => {
       // Prevent ghost cookie resurrection: if local token is gone, abort.
       if (!localStorage.getItem('token')) {
-        dispatch(clearUser())
+        clearUser()
         throw new Error('No local token')
       }
-      
       try {
         const res = await api.get('/profile')
-        dispatch(setUser(res.data))
+        setUser(res.data)
         return res.data
       } catch (err) {
-        dispatch(clearUser())
-        throw err // 401 Unauthorized handle karne ke liye
+        clearUser()
+        throw err
       }
     },
-    retry: false, // Baar baar try na kare agar login nahi hai
-    staleTime: Infinity, 
+    retry: false,
+    staleTime: Infinity,
   })
 
   // 2. Login Logic
   const loginMutation = useMutation({
     mutationFn: data => api.post('/auth/login', data),
     onSuccess: res => {
-      // res.data ab explicitly { token, _id, name, email } de raha hai
       if (res.data.token) {
         localStorage.setItem('token', res.data.token)
       }
-      dispatch(setUser(res.data))
+      setUser(res.data)
       navigate('/dashboard')
     },
   })
@@ -56,7 +61,7 @@ export function AuthProvider({ children }) {
     onSettled: () => {
       localStorage.removeItem('token')
       queryClient.clear()
-      dispatch(clearUser())
+      clearUser()
       navigate('/login')
     },
   })
@@ -84,4 +89,9 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   )
+}
+
+// Convenience hook
+export function useAuth() {
+  return useContext(AuthContext)
 }

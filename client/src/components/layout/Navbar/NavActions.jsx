@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import useAuth from '../../../context/useAuth.js'
 
 export default function NavActions() {
-  const { isAuthenticated } = useSelector(s => s.auth)
+  const { isAuthenticated } = useAuth()
 
   return (
     <div className="hidden lg:flex items-center gap-3">

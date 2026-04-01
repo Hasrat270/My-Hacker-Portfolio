@@ -6,7 +6,7 @@ import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/layout/ProtectedRoute.jsx";
 
 // Public Pages/Sections
-import Home from './pages/Home.jsx'; 
+import Home from './pages/Home.jsx';
 import Hero from "./features/portfolio/Hero.jsx";
 import About from "./features/portfolio/About.jsx";
 import Skills from "./features/portfolio/Skills.jsx";
@@ -17,10 +17,10 @@ import Labs from "./features/portfolio/Labs.jsx";
 import Contact from "./features/portfolio/Contact.jsx";
 import Resume from "./pages/Resume.jsx";
 
-// Auth Pages
+// Auth Pages (no Navbar/Footer)
 import Login from "./pages/Auth/Login.jsx";
-import Register from './pages/Auth/Register.jsx'
-import ForgotPassword from './pages/Auth/ForgotPassword.jsx'
+import Register from './pages/Auth/Register.jsx';
+import ForgotPassword from './pages/Auth/ForgotPassword.jsx';
 import ResetPassword from "./pages/Auth/ResetPassword.jsx";
 
 // Detail Pages
@@ -43,7 +43,7 @@ import ErrorPage from "./pages/Error/ErrorPage.jsx";
 export default function App() {
   return (
     <Routes>
-      {/* Public Routes with Navbar/Footer */}
+      {/* Public Routes — with Navbar + Footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/hero" element={<Hero />} />
@@ -55,17 +55,19 @@ export default function App() {
         <Route path="/writeups" element={<Writeups />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/machines/:id" element={<MachineDetails />} />
         <Route path="/writeups/:id" element={<WriteupDetail />} />
       </Route>
 
+      {/* Auth Routes — no Navbar/Footer, full screen */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+
       {/* Protected Dashboard Routes */}
-      <Route 
-        path="/dashboard" 
+      <Route
+        path="/dashboard"
         element={
           <ProtectedRoute>
             <DashboardLayout />
@@ -83,7 +85,7 @@ export default function App() {
         <Route path="labs" element={<DashLabs />} />
       </Route>
 
-      {/* Error Routes (Full screen, no Layout) */}
+      {/* Error Routes — full screen, no Layout */}
       <Route path="/501" element={<ErrorPage code="501" message="Not Implemented" desc="// requested feature is not finalized" />} />
       <Route path="/500" element={<ErrorPage code="500" message="Server Error" desc="// encryption synchronization failed" />} />
       <Route path="/403" element={<ErrorPage code="403" message="Forbidden" desc="// access denied" />} />

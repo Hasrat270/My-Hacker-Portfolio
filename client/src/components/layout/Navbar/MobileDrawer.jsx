@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import useAuth from "../../../context/useAuth.js";
 import { NAV_LINKS } from "./constants.js";
 
 export default function MobileDrawer({ open }) {
-  const { isAuthenticated } = useSelector((s) => s.auth);
+  const { isAuthenticated } = useAuth();
 
   return (
     <>

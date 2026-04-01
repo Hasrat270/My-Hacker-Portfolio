@@ -145,13 +145,18 @@ export default function DashWriteups() {
         </div>
 
         {/* URL */}
-        <input
-          type="text"
-          placeholder="External URL (optional)"
-          value={form.url}
-          onChange={e => setForm(p => ({ ...p, url: e.target.value }))}
-          className="font-mono text-sm text-[#00ff41] bg-transparent border border-[#00ff41]/20 rounded px-4 py-2.5 outline-none focus:border-[#00ff41]/60 transition-all duration-200 placeholder:text-[#00ff41]/20"
-        />
+        <div className="flex flex-col gap-1">
+          <input
+            type="text"
+            placeholder="External URL (optional)"
+            value={form.url}
+            onChange={e => setForm(p => ({ ...p, url: e.target.value }))}
+            className="font-mono text-sm text-[#00ff41] bg-transparent border border-[#00ff41]/20 rounded px-4 py-2.5 outline-none focus:border-[#00ff41]/60 transition-all duration-200 placeholder:text-[#00ff41]/20"
+          />
+          <p className="font-mono text-[9px] text-[#00ff41]/30 ml-1">
+            {"> [HINT]: This becomes '$ ./view-original.sh' button — use http:// for external link (Medium, GitHub, HTB...)"}
+          </p>
+        </div>
 
         {/* Markdown Editor */}
         <div className="flex flex-col gap-1">
