@@ -48,14 +48,13 @@ export default function MobileDrawer({ open }) {
           ))}
 
           <div className="mt-3 pt-3 border-t border-[#00ff41]/10 flex flex-col gap-2">
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="font-mono text-sm text-[#00ff41] border border-[#00ff41]/40 px-3 py-2.5 rounded hover:bg-[#00ff41]/10 transition-all duration-200 text-center"
+            <NavLink
+              to="/resume"
+              onClick={() => { /* Drawer auto-closes when navigation happens if parent handles it, but just strictly matching NavActions here is enough */ }}
+              className="font-mono text-sm text-[#00ff41] border border-[#00ff41]/40 px-3 py-2.5 rounded hover:bg-[#00ff41]/10 hover:border-[#00ff41] transition-all duration-200 text-center"
             >
               $ ./resume.sh
-            </a>
+            </NavLink>
             {isAuthenticated && (
               <NavLink
                 to="/dashboard"

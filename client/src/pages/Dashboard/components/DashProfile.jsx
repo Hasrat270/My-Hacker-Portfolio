@@ -1,10 +1,13 @@
 import { useState, useLayoutEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import api from "../../services/axios.js";
+import MDEditor from '@uiw/react-md-editor'
+import api from "../../../api/apiClient.js";
 
 export default function DashProfile() {
   const queryClient = useQueryClient();
   const [validationError, setValidationError] = useState("");
+  const [showResume, setShowResume] = useState(false);
+  const [localResumeUrl, setLocalResumeUrl] = useState(null);
 
   const [form, setForm] = useState({
     name: "", designation: "", bio: "", email: "", phone: "",
@@ -63,6 +66,9 @@ export default function DashProfile() {
 
   const resumeMutation = useMutation({
     mutationFn: (file) => {
+      const url = URL.createObjectURL(file);
+      setLocalResumeUrl(url);
+      setShowResume(true);
       const fd = new FormData();
       fd.append("resume", file);
       return api.post("/profile/upload-resume", fd);
@@ -85,6 +91,25 @@ export default function DashProfile() {
     }
     saveMutation.mutate(form);
   }
+
+  const handleDownload = async (e) => {
+    e.preventDefault();
+    if (!profile?.resume) return;
+    try {
+      const response = await fetch(profile.resume);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'resume.pdf'); 
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
 
   // Consistent Header Component
   const Header = ({ path, title, subtext, isErrorState = false }) => (
@@ -119,7 +144,7 @@ export default function DashProfile() {
       <Header path="~/dashboard/profile" title="sudo config --user" subtext="[ modifying identity parameters ]" />
 
       {/* Profile Pic Section */}
-      <div className="flex items-center gap-6 border border-[#00ff41]/10 p-4 rounded bg-[#00ff41]/2">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-6 border border-[#00ff41]/10 p-4 rounded bg-[#00ff41]/2">
         <div className="w-20 h-20 rounded border border-[#00ff41]/30 overflow-hidden bg-[#00ff41]/5 flex items-center justify-center shrink-0">
           {profile?.profilePic ? (
             <img src={profile.profilePic} alt="profile" className="w-full h-full object-cover" />
@@ -139,21 +164,42 @@ export default function DashProfile() {
       </div>
 
       {/* Resume Section */}
-      <div className="border border-[#00ff41]/20 rounded p-4 bg-[#00ff41]/2 flex items-center justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest mb-1 uppercase">resume_manifest</p>
-          {profile?.resume ? (
-            <a href={profile.resume} target="_blank" rel="noreferrer" className="font-mono text-xs text-[#00ff41]/60 hover:text-[#00ff41] underline underline-offset-4 decoration-[#00ff41]/20">
-              {'>'} view_current_resume.pdf
-            </a>
-          ) : (
-            <p className="font-mono text-xs text-[#00ff41]/30 italic">no_resume_found</p>
-          )}
+      <div className="flex flex-col gap-4">
+        <div className="border border-[#00ff41]/20 rounded p-4 bg-[#00ff41]/2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest mb-1 uppercase">resume_manifest</p>
+            {profile?.resume || localResumeUrl ? (
+              <button 
+                type="button"
+                onClick={(e) => { e.preventDefault(); setShowResume(!showResume); }} 
+                className="font-mono text-xs text-[#00ff41]/60 hover:text-[#00ff41] underline underline-offset-4 decoration-[#00ff41]/20 cursor-pointer"
+              >
+                {showResume ? 'v hide_resume_preview' : '> view_current_resume.pdf'}
+              </button>
+            ) : (
+              <p className="font-mono text-xs text-[#00ff41]/30 italic">no_resume_found</p>
+            )}
+          </div>
+          <label className="font-mono text-xs text-[#00ff41] border border-[#00ff41]/40 px-4 py-2 rounded hover:bg-[#00ff41]/10 transition-all cursor-pointer shrink-0 uppercase">
+            {resumeMutation.isPending ? "uploading..." : "$ ./update_pdf.sh"}
+            <input type="file" accept="application/pdf" className="hidden" onChange={(e) => e.target.files[0] && resumeMutation.mutate(e.target.files[0])} />
+          </label>
         </div>
-        <label className="font-mono text-xs text-[#00ff41] border border-[#00ff41]/40 px-4 py-2 rounded hover:bg-[#00ff41]/10 transition-all cursor-pointer shrink-0 uppercase">
-          {resumeMutation.isPending ? "uploading..." : "$ ./update_pdf.sh"}
-          <input type="file" accept="application/pdf" className="hidden" onChange={(e) => e.target.files[0] && resumeMutation.mutate(e.target.files[0])} />
-        </label>
+        
+        {/* PDF Preview */}
+        {showResume && (localResumeUrl || profile?.resume) && (
+          <div className="border border-[#00ff41]/20 rounded p-2 bg-[#00ff41]/5 animate-fade-in">
+            <div className="flex justify-between items-center mb-2 px-2">
+              <span className="font-mono text-[10px] text-[#00ff41]/50 uppercase">preview_mode: active</span>
+              {profile?.resume && (
+                <a href={profile.resume} onClick={handleDownload} className="font-mono text-[10px] text-[#00ff41] hover:underline cursor-pointer">
+                  [ download_file ]
+                </a>
+              )}
+            </div>
+            <iframe src={localResumeUrl || profile.resume} className="w-full h-[500px] rounded border border-[#00ff41]/10 bg-black/20" title="Resume Preview" />
+          </div>
+        )}
       </div>
 
       {/* Form Fields - Re-ordered and Complete */}
@@ -186,15 +232,20 @@ export default function DashProfile() {
 
         {/* Bio - Span Full Width */}
         <div className="flex flex-col gap-1 sm:col-span-2">
-          <label className="font-mono text-[10px] text-[#00ff41]/40 tracking-widest uppercase">system_biography</label>
-          <textarea
-            name="bio"
-            value={form.bio}
-            onChange={handleChange}
-            placeholder="Security enthusiast and ethical hacker..."
-            rows={4}
-            className="font-mono text-sm text-[#00ff41] bg-[#00ff41]/5 border border-[#00ff41]/20 rounded px-4 py-3 outline-none focus:border-[#00ff41]/60 transition-all resize-none"
-          />
+          <label className="font-mono text-[10px] text-[#00ff41]/40 tracking-widest uppercase">system_biography (markdown)</label>
+          <div data-color-mode="dark">
+            <MDEditor
+              value={form.bio}
+              onChange={val => setForm(p => ({ ...p, bio: val || '' }))}
+              height={200}
+              preview="edit"
+              style={{
+                background: 'transparent',
+                border: '1px solid rgba(0,255,65,0.2)',
+                borderRadius: '4px',
+              }}
+            />
+          </div>
         </div>
       </div>
 

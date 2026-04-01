@@ -1,7 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import ReactMarkdown from 'react-markdown'
-import api from '../services/axios.js'
+import DOMPurify from 'dompurify'
+import api from '../api/apiClient.js'
+import SEO from '../components/layout/SEO.jsx'
 
 const DIFFICULTY_COLORS = {
   Easy:   'text-[#00ff41] border-[#00ff41]/40',
@@ -32,8 +34,14 @@ export default function WriteupDetail() {
   )
 
   return (
-    <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
+    <>
+      <SEO 
+        title={`${writeup.title} - Writeup | Hasrat Khan`}
+        description={`Penetration testing writeup for ${writeup.title} on ${writeup.platform}.`}
+        type="article"
+      />
+      <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
@@ -124,12 +132,13 @@ export default function WriteupDetail() {
               prose-li:font-mono prose-li:text-[#00ff41]/70
               prose-blockquote:border-l-[#00ff41]/40 prose-blockquote:text-[#00ff41]/50
             ">
-              <ReactMarkdown>{writeup.content}</ReactMarkdown>
+              <ReactMarkdown>{DOMPurify.sanitize(writeup.content)}</ReactMarkdown>
             </div>
           </div>
         )}
 
       </div>
     </section>
+    </>
   )
 }

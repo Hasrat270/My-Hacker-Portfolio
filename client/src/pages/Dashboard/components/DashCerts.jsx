@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import api from '../../services/axios.js'
+import api from '../../../api/apiClient.js'
 
 const DEFAULTS = {
   name: '', issuer: '', issueDate: '',
@@ -11,28 +11,46 @@ export default function DashCerts() {
   const queryClient = useQueryClient()
   const [form, setForm] = useState(DEFAULTS)
   const [editId, setEditId] = useState(null)
+  const [validationError, setValidationError] = useState('')
 
-  const { data: certs = [] } = useQuery({
+  const { data: certs = [], isLoading, isError } = useQuery({
     queryKey: ['certifications'],
     queryFn: async () => (await api.get('/certifications')).data,
   })
 
   const addMutation = useMutation({
     mutationFn: data => api.post('/certifications', data),
-    onSuccess: () => { queryClient.invalidateQueries(['certifications']); setForm(DEFAULTS) },
+    onSuccess: () => { 
+      queryClient.invalidateQueries(['certifications'])
+      setForm(DEFAULTS)
+      setTimeout(() => addMutation.reset(), 3000)
+    },
   })
 
   const editMutation = useMutation({
     mutationFn: ({ id, data }) => api.put(`/certifications/${id}`, data),
-    onSuccess: () => { queryClient.invalidateQueries(['certifications']); setEditId(null); setForm(DEFAULTS) },
+    onSuccess: () => { 
+      queryClient.invalidateQueries(['certifications'])
+      setEditId(null)
+      setForm(DEFAULTS)
+      setTimeout(() => editMutation.reset(), 3000)
+    },
   })
 
   const deleteMutation = useMutation({
     mutationFn: id => api.delete(`/certifications/${id}`),
-    onSuccess: () => queryClient.invalidateQueries(['certifications']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['certifications'])
+      setTimeout(() => deleteMutation.reset(), 3000)
+    },
   })
 
   function handleSubmit() {
+    if (!form.name || !form.issuer) {
+      setValidationError("required_fields_missing: name and issuer")
+      return;
+    }
+    setValidationError("")
     if (editId) {
       editMutation.mutate({ id: editId, data: form })
     } else {
@@ -54,6 +72,8 @@ export default function DashCerts() {
 
   return (
     <div className="flex flex-col gap-8 max-w-2xl">
+      {isLoading && <p className="font-mono text-[10px] text-[#00ff41]/50 uppercase">loading_certifications...</p>}
+      {isError && <p className="font-mono text-[10px] text-red-500 uppercase">error: failed_to_fetch_certs</p>}
 
       {/* Form */}
       <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/2 flex flex-col gap-3">
@@ -124,13 +144,27 @@ export default function DashCerts() {
           </button>
           {editId && (
             <button
-              onClick={() => { setEditId(null); setForm(DEFAULTS) }}
+              onClick={() => { setEditId(null); setForm(DEFAULTS); setValidationError("") }}
               className="font-mono text-xs text-[#00ff41]/50 border border-[#00ff41]/20 px-4 py-2 rounded hover:text-[#00ff41] transition-colors duration-200"
             >
               cancel
             </button>
           )}
         </div>
+
+        {/* Global Status/Error Box */}
+        {(validationError || addMutation.isError || editMutation.isError || addMutation.isSuccess || editMutation.isSuccess || deleteMutation.isError || deleteMutation.isSuccess) && (
+          <div className={`mt-2 border p-3 rounded font-mono text-[11px] ${
+            (addMutation.isSuccess || editMutation.isSuccess || deleteMutation.isSuccess) ? 'bg-[#00ff41]/5 border-[#00ff41]/30 text-[#00ff41]' : 'bg-red-500/5 border-red-500/30 text-red-400'
+          }`}>
+            {(addMutation.isSuccess || editMutation.isSuccess) && "> [SUCCESS]: cert_record_updated"}
+            {deleteMutation.isSuccess && "> [SUCCESS]: cert_deleted"}
+            {addMutation.isError && `> [ERROR]: save_failed: ${addMutation.error?.response?.data?.message || 'internal_error'}`}
+            {editMutation.isError && `> [ERROR]: edit_failed: ${editMutation.error?.response?.data?.message || 'internal_error'}`}
+            {deleteMutation.isError && `> [ERROR]: delete_failed: ${deleteMutation.error?.response?.data?.message || 'internal_error'}`}
+            {validationError && `> [ERROR]: ${validationError}`}
+          </div>
+        )}
       </div>
 
       {/* List */}
@@ -146,6 +180,7 @@ export default function DashCerts() {
                   src={cert.badgeUrl}
                   alt={cert.name}
                   className="w-8 h-8 object-contain shrink-0"
+                  onError={(e) => { e.target.style.display = 'none' }}
                 />
               )}
               <div className="min-w-0">

@@ -1,6 +1,7 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import api from "../services/axios.js";
+import api from "../api/apiClient.js";
+import SEO from "../components/layout/SEO.jsx";
 
 const DIFFICULTY_COLORS = {
   Easy: "text-[#00ff41] border-[#00ff41]/40",
@@ -56,9 +57,17 @@ export default function MachineDetail() {
     </section>
   );
 
+  const isExternal = machine.writeupUrl?.startsWith("http");
+
   return (
-    <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
+    <>
+      <SEO 
+        title={`${machine.name} - Machine | Hasrat Khan`}
+        description={`Details for ${machine.name}, an ${machine.os} machine rated ${machine.difficulty}.`}
+        type="article"
+      />
+      <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,65,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,65,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <button
@@ -119,16 +128,26 @@ export default function MachineDetail() {
 
         {/* Writeup link */}
         {machine.writeupUrl && (
-          <a
-            href={machine.writeupUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block font-mono text-sm text-[#0a0a0a] bg-[#00ff41] px-6 py-3 rounded hover:bg-[#00ff41]/80 transition-colors uppercase"
-          >
-            $ ./read-writeup.sh
-          </a>
+          isExternal ? (
+            <a
+              href={machine.writeupUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block font-mono text-sm text-[#0a0a0a] bg-[#00ff41] px-6 py-3 rounded hover:bg-[#00ff41]/80 transition-colors uppercase"
+            >
+              $ ./read-writeup.sh
+            </a>
+          ) : (
+            <Link
+              to={machine.writeupUrl}
+              className="inline-block font-mono text-sm text-[#0a0a0a] bg-[#00ff41] px-6 py-3 rounded hover:bg-[#00ff41]/80 transition-colors uppercase"
+            >
+              $ ./read-writeup.sh
+            </Link>
+          )
         )}
       </div>
     </section>
+    </>
   );
 }

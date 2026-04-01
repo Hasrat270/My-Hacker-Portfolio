@@ -1,14 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import api from '../../services/axios.js'
+import api from '../../../api/apiClient.js'
 
 export default function DashSkills() {
   const queryClient = useQueryClient()
   const [form, setForm] = useState({ name: '', category: '', level: '' })
   const [editId, setEditId] = useState(null)
+  const [validationError, setValidationError] = useState('')
 
   // Fetch
-  const { data: skills = [] } = useQuery({
+  const { data: skills = [], isLoading, isError } = useQuery({
     queryKey: ['skills'],
     queryFn: async () => (await api.get('/skills')).data,
   })
@@ -19,6 +20,7 @@ export default function DashSkills() {
     onSuccess: () => {
       queryClient.invalidateQueries(['skills'])
       setForm({ name: '', category: '', level: '' })
+      setTimeout(() => addMutation.reset(), 3000)
     },
   })
 
@@ -29,16 +31,25 @@ export default function DashSkills() {
       queryClient.invalidateQueries(['skills'])
       setEditId(null)
       setForm({ name: '', category: '', level: '' })
+      setTimeout(() => editMutation.reset(), 3000)
     },
   })
 
   // Delete
   const deleteMutation = useMutation({
     mutationFn: id => api.delete(`/skills/${id}`),
-    onSuccess: () => queryClient.invalidateQueries(['skills']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['skills'])
+      setTimeout(() => deleteMutation.reset(), 3000)
+    },
   })
 
   function handleSubmit() {
+    if (!form.name || !form.category || !form.level) {
+      setValidationError("required_fields_missing: name, category, and level")
+      return;
+    }
+    setValidationError("")
     if (editId) {
       editMutation.mutate({ id: editId, data: form })
     } else {
@@ -53,6 +64,8 @@ export default function DashSkills() {
 
   return (
     <div className="flex flex-col gap-8 max-w-2xl">
+      {isLoading && <p className="font-mono text-[10px] text-[#00ff41]/50 uppercase">loading_skills...</p>}
+      {isError && <p className="font-mono text-[10px] text-red-500 uppercase">error: failed_to_fetch_skills</p>}
 
       {/* Form */}
       <div className="border border-[#00ff41]/20 rounded p-5 bg-[#00ff41]/2 flex flex-col gap-3">
@@ -84,13 +97,27 @@ export default function DashSkills() {
           </button>
           {editId && (
             <button
-              onClick={() => { setEditId(null); setForm({ name: '', category: '', level: '' }) }}
+              onClick={() => { setEditId(null); setForm({ name: '', category: '', level: '' }); setValidationError("") }}
               className="font-mono text-xs text-[#00ff41]/50 border border-[#00ff41]/20 px-4 py-2 rounded hover:text-[#00ff41] transition-colors duration-200"
             >
               cancel
             </button>
           )}
         </div>
+
+        {/* Global Status/Error Box */}
+        {(validationError || addMutation.isError || editMutation.isError || addMutation.isSuccess || editMutation.isSuccess || deleteMutation.isError || deleteMutation.isSuccess) && (
+          <div className={`mt-2 border p-3 rounded font-mono text-[11px] ${
+            (addMutation.isSuccess || editMutation.isSuccess || deleteMutation.isSuccess) ? 'bg-[#00ff41]/5 border-[#00ff41]/30 text-[#00ff41]' : 'bg-red-500/5 border-red-500/30 text-red-400'
+          }`}>
+            {(addMutation.isSuccess || editMutation.isSuccess) && "> [SUCCESS]: skill_record_updated"}
+            {deleteMutation.isSuccess && "> [SUCCESS]: skill_deleted"}
+            {addMutation.isError && `> [ERROR]: save_failed: ${addMutation.error?.response?.data?.message || 'internal_error'}`}
+            {editMutation.isError && `> [ERROR]: edit_failed: ${editMutation.error?.response?.data?.message || 'internal_error'}`}
+            {deleteMutation.isError && `> [ERROR]: delete_failed: ${deleteMutation.error?.response?.data?.message || 'internal_error'}`}
+            {validationError && `> [ERROR]: ${validationError}`}
+          </div>
+        )}
       </div>
 
       {/* List */}

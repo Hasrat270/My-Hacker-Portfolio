@@ -14,7 +14,7 @@ const { register, login, logout, forgotPassword, resetPassword } =
 
 router.post("/register", registerValidator, validate, register);
 router.post("/login", loginValidator, validate, login);
-router.post("/logout", protect, logout);
+router.post("/logout", logout);
 router.post("/forgot-password", forgotPassword);
 router.put("/reset-password/:token", resetValidator, validate, resetPassword);
 

@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
-export default function NotFound({ code = '404', message = 'Page not found' }) {
+export default function ErrorPage({ 
+  code = '404', 
+  message = 'Page not found', 
+  desc = '// the page you are looking for does not exist' 
+}) {
   const navigate = useNavigate()
 
   return (
@@ -21,7 +25,7 @@ export default function NotFound({ code = '404', message = 'Page not found' }) {
         </div>
 
         <p className="font-mono text-[#00ff41]/40 text-sm mb-8">
-          {'// the page you are looking for does not exist'}
+          {desc}
         </p>
 
         <div className="font-mono text-[10px] text-[#00ff41]/25 mb-8 leading-relaxed">
@@ -31,7 +35,7 @@ export default function NotFound({ code = '404', message = 'Page not found' }) {
 
         <button
           onClick={() => navigate('/')}
-          className="font-mono text-sm text-[#0a0a0a] bg-[#00ff41] px-6 py-3 rounded hover:bg-[#00ff41]/80 transition-colors duration-200"
+          className="font-mono text-sm text-[#0a0a0a] bg-[#00ff41] px-6 py-3 rounded hover:bg-[#00ff41]/80 transition-colors duration-200 cursor-pointer"
         >
           $ ./go-home.sh
         </button>

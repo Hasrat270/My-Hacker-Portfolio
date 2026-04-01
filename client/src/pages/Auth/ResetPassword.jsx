@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import api from '../services/axios.js'
+import api from '../../api/apiClient.js'
 
 export default function ResetPassword() {
   const { token } = useParams()

@@ -2,7 +2,14 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import asyncHandler from "../utils/asyncHandler.js"; // Use your wrapper!
 export default asyncHandler(async (req, res, next) => {
-  const token = req.cookies.token;
+  let token;
+
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.token) {
+    token = req.cookies.token;
+  }
+
   if (!token) {
     return res.status(401).json({ message: "Not authorized - No Token" });
   }

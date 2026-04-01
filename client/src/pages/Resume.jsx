@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { useQuery } from '@tanstack/react-query'
-import api from '../services/axios.js'
+import api from '../api/apiClient.js'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 
@@ -22,25 +22,37 @@ export default function Resume() {
   const resumeUrl = profile?.resume
 
   const handleDownload = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch(resumeUrl);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    
-    // Yahan aap apna desired filename set kar sakte hain
-    link.setAttribute('download', 'resume.pdf'); 
-    
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Download failed:", error);
-  }
-};
+    e.preventDefault();
+    try {
+      // Direct stream bypassing proxy avoids Cloudinary 404 Node-Blocks
+      const response = await fetch(resumeUrl);
+      const rawBlob = await response.blob();
+      
+      // Enforce PDF type to prevent generic UUID fallback
+      const pdfBlob = new Blob([rawBlob], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(pdfBlob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      // Use property assignment instead of setAttribute for browser lock
+      link.download = 'resume.pdf'; 
+      
+      document.body.appendChild(link);
+      link.click();
+      
+      // We purposefully DO NOT revoke the ObjectURL immediately.
+      // Chrome's download manager is asynchronous. If we revoke it too fast,
+      // it loses the anchor tag context and falls back to the UUID of the blob!
+      setTimeout(() => {
+        document.body.removeChild(link);
+        // Best practice: Now that the browser download has natively started,
+        // we can safely clear the 600KB blob from RAM to prevent SPA memory leaks.
+        window.URL.revokeObjectURL(url);
+      }, 10000);
+    } catch (error) {
+      console.error("Native download failed:", error);
+    }
+  };
 
   return (
     <section className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
@@ -78,9 +90,9 @@ export default function Resume() {
                 </button>
               </div>
               <a
-                href={resumeUrl}
-                className="font-mono text-xs text-[#0a0a0a] bg-[#00ff41] px-4 py-1.5 rounded hover:bg-[#00ff41]/80 transition-colors duration-200"
+                href="#"
                 onClick={handleDownload}
+                className="font-mono text-xs text-[#0a0a0a] bg-[#00ff41] px-4 py-1.5 rounded hover:bg-[#00ff41]/80 transition-colors duration-200"
               >
                 $ ./download.sh
               </a>

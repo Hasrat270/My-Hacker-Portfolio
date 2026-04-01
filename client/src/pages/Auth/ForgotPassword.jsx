@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import api from '../services/axios.js'
-import Card from '../components/ui/Card.jsx'
-import Button from '../components/ui/Button.jsx'
+import api from '../../api/apiClient.js'
+import Card from '../../components/common/Card.jsx'
+import Button from '../../components/common/Button.jsx'
 
 export default function ForgotPassword() {
   const navigate = useNavigate()

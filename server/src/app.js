@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.routes.js";
 import portfolioRoutes from "./routes/portfolio.routes.js";
 import errorHandler from "./middleware/error.js";
 import profileRoutes from "./routes/profile.routes.js";
+import ipWhitelist from "./middleware/ipWhitelist.js";
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -31,8 +32,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(limiter);
 
-app.use("/api/auth", authLimiter, authRoutes);
-app.use("/api/profile", profileRoutes);
+app.use("/api/auth", authLimiter, ipWhitelist, authRoutes);
+app.use("/api/profile", ipWhitelist, profileRoutes);
 app.use("/api", portfolioRoutes);
 
 app.use(errorHandler);

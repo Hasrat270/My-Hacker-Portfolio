@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import api from '../services/axios.js'
+import api from '../../api/apiClient.js'
 
 // Tumhare UI components
-import Card from '../components/ui/Card.jsx'
-import Button from '../components/ui/Button.jsx'
-import Badge from '../components/ui/Badge.jsx'
-import TerminalText from '../components/ui/TerminalText.jsx'
+import Card from '../../components/common/Card.jsx'
+import Button from '../../components/common/Button.jsx'
+import Badge from '../../components/common/Badge.jsx'
+import TerminalText from '../../components/common/TerminalText.jsx'
 
 export default function Register() {
   const navigate = useNavigate()

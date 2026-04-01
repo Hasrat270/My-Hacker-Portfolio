@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import api from '../../services/axios.js'
+import api from '../../api/apiClient.js'
 
 const FILTERS = ['All', 'HTB', 'TryHackMe', 'PortSwigger']
 

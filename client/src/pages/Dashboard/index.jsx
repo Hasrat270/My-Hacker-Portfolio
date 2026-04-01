@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../context/useAuth.js";
-import DashProfile from "./DashProfile.jsx";
-import DashSkills from "./DashSkills.jsx";
-import DashMachines from "./DashMachines.jsx";
-import DashWriteups from "./DashWriteups.jsx";
-import DashCerts from "./DashCerts.jsx";
-import DashSocials from "./DashSocials.jsx";
-import DashContact from "./DashContact.jsx";
-import DashLabs from "./DashLabs.jsx";
+import DashProfile from "./components/DashProfile.jsx";
+import DashSkills from "./components/DashSkills.jsx";
+import DashMachines from "./components/DashMachines.jsx";
+import DashWriteups from "./components/DashWriteups.jsx";
+import DashCerts from "./components/DashCerts.jsx";
+import DashSocials from "./components/DashSocials.jsx";
+import DashContact from "./components/DashContact.jsx";
+import DashLabs from "./components/DashLabs.jsx";
 
 const TABS = [
   { key: "profile", label: "profile" },
@@ -39,7 +39,15 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex">
+    <div className="min-h-screen bg-[#0a0a0a] flex w-full overflow-x-hidden">
+      {/* Universal Drawer Overlay */}
+      {open && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside
         className={`
@@ -74,7 +82,10 @@ export default function Dashboard() {
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActive(tab.key)}
+              onClick={() => {
+                setActive(tab.key);
+                setOpen(false); // Global auto-close since it's a popup drawer everywhere now
+              }}
               className={`flex items-center gap-3 px-2 py-2 rounded transition-all duration-200 w-full text-left ${
                 active === tab.key
                   ? "text-[#00ff41] bg-[#00ff41]/10 border border-[#00ff41]/30"
@@ -117,9 +128,9 @@ export default function Dashboard() {
 
       {/* Main content */}
       <main
-        className={`flex-1 transition-all duration-300 ${open ? "ml-56" : "ml-14"}`}
+        className="flex-1 transition-all duration-300 ml-14 w-[calc(100vw-56px)]"
       >
-        <div className="p-6">
+        <div className="p-3 sm:p-6 overflow-x-hidden w-full">
           {/* Header */}
           <div className="mb-8 border-b border-[#00ff41]/20 pb-4">
             <p className="font-mono text-[10px] text-[#00ff41]/30 tracking-widest">

@@ -10,7 +10,7 @@ const fileFilter = (req, file, cb) => {
 
   const ext = path.extname(file.originalname).toLowerCase();
 
-  if (file.fieldname === "image") {
+  if (file.fieldname === "image" || file.fieldname === "profilePic") {
     if (allowedImageTypes.test(ext)) return cb(null, true);
   }
 
@@ -29,6 +29,8 @@ const imageStorage = new CloudinaryStorage({
     allowed_formats: ["jpg", "jpeg", "png", "webp"],
     resource_type: "image",
     public_id: `image-${Date.now()}`,
+    format: "webp",
+    transformation: [{ quality: "auto", fetch_format: "auto" }],
   }),
 });
 
@@ -41,7 +43,7 @@ const resumeStorage = new CloudinaryStorage({
     return {
       folder: "hacker-portfolio/resumes",
       resource_type: "raw",
-      public_id: `${baseName}-${Date.now()}`,
+      public_id: `${baseName}-${Date.now()}${ext}`,
       type: "upload", 
     };
   },

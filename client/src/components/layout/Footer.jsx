@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { NAV_LINKS } from "./Navbar/constants.js";
 
 const SOCIALS = [
@@ -43,14 +44,14 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-2">
               {NAV_LINKS.map(link => (
-                <a
+                <Link
                   key={link.path}
-                  href={link.path}
+                  to={link.path}
                   className="font-mono text-xs text-[#00ff41]/40 hover:text-[#00ff41] transition-colors duration-200"
                 >
                   <span className="text-[#00ff41]/20">~/</span>
                   {link.label.toLowerCase()}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

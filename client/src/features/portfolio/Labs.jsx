@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import api from "../../services/axios.js";
+import api from "../../api/apiClient.js";
 
 const fetchLabs = () => api.get("/labs").then(r => r.data);
 

@@ -1,24 +1,28 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import api from "../../services/axios.js";
+import api from "../../api/apiClient.js";
 
 const fetchCerts = () => api.get("/certifications").then(r => r.data);
 
 function CertCard({ cert }) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <div className="border border-[#00ff41]/20 rounded bg-[#00ff41]/2 hover:bg-[#00ff41]/5 hover:border-[#00ff41]/40 transition-all duration-200 p-5 flex flex-col gap-4 group">
 
       {/* Badge + Name */}
       <div className="flex items-center gap-4">
-        {cert.badgeUrl ? (
+        {(cert.badgeUrl && !imgError) ? (
           <img
             src={cert.badgeUrl}
             alt={cert.name}
             className="w-14 h-14 object-contain rounded shrink-0"
+            onError={() => setImgError(true)}
           />
         ) : (
           <div className="w-14 h-14 rounded border border-[#00ff41]/20 flex items-center justify-center shrink-0 bg-[#00ff41]/5">
             <span className="font-mono text-lg text-[#00ff41]/40">
-              {cert.name.slice(0, 2).toUpperCase()}
+              {cert.name ? cert.name.slice(0, 2).toUpperCase() : ""}
             </span>
           </div>
         )}

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import api from '../../services/axios.js'
+import api from '../../api/apiClient.js'
 
 const difficultyColor = {
   Easy:   '#00ff41',

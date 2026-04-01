@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import api from '../../services/axios.js'
+import api from '../../api/apiClient.js'
 
 export default function Contact() {
   const { data: contactList = [] } = useQuery({
